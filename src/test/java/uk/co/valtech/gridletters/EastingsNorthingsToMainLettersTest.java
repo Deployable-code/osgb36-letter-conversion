@@ -9,7 +9,6 @@ public class EastingsNorthingsToMainLettersTest {
 
 
     private static final int KM_100 = 100000;
-
     @Test
     public void firstLetterOfInterestingPoints() {
         String[] rows = {
@@ -43,23 +42,13 @@ public class EastingsNorthingsToMainLettersTest {
          // X: -10        -5         0         5        10        15
         };
 
-        for (int i = 0; i < rows.length; i++) {
-            String row = rows[i];
-            int yCoord = 15 - i;
 
-            for (int j = 0; j < row.length(); j+=2) {
-                int xCoord = -10 + (j/2);
-                char expectedChar = row.charAt(j);
 
-                if (expectedChar != '_') {
-                    int eastings = xCoord * KM_100;
-                    int northings = yCoord * KM_100;
+        int yZero = 15;
+        int xZero = 10;
+        int letterNumber = 0;
 
-                    assertThat("First grid letter of: "+eastings+", "+northings+" failed",
-                            getGridReference(eastings, northings).charAt(0), is(expectedChar));
-                }
-            }
-        }
+        checkTestMatrix(rows, yZero, xZero, letterNumber);
     }
 
     @Test
@@ -73,12 +62,24 @@ public class EastingsNorthingsToMainLettersTest {
                 "V W X Y Z ", // 0
         };
 
+        int yZero = 4;
+        int xZero = 0;
+        int letterNumber = 1;
+
+        checkTestMatrix(rows, yZero, xZero, letterNumber);
+    }
+
+    //~~~~~~~ Testing utils
+
+    private static final int TEST_GRID_X_SPACING = 2;
+
+    private void checkTestMatrix(String[] rows, int yZero, int xZero, int letterNumber) {
         for (int i = 0; i < rows.length; i++) {
             String row = rows[i];
-            int yCoord = 4 - i;
+            int yCoord = yZero - i;
 
-            for (int j = 0; j < row.length(); j+= 2) {
-                int xCoord = j/2;
+            for (int j = 0; j < row.length(); j+= TEST_GRID_X_SPACING) {
+                int xCoord = - xZero + (j/2);
                 char expectedChar = row.charAt(j);
 
                 if (expectedChar != '_') {
@@ -86,7 +87,7 @@ public class EastingsNorthingsToMainLettersTest {
                     int northings = yCoord * KM_100;
 
                     assertThat("First grid letter of: "+eastings+", "+northings+" failed",
-                            getGridReference(eastings, northings).charAt(1), is(expectedChar));
+                            getGridReference(eastings, northings).charAt(letterNumber), is(expectedChar));
                 }
             }
         }
