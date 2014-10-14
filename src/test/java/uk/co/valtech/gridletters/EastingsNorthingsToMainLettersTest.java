@@ -232,30 +232,28 @@ public class EastingsNorthingsToMainLettersTest {
     private String getGridReference(OsgbPoint currentPoint) {
         StringBuilder sb = new StringBuilder();
 
-        //Translate relative to the real origin
-        currentPoint = translateToRealOrigin(currentPoint, sb);
 
-        //First letter
-        {
-            currentPoint = publishLetterForBox500(currentPoint, sb);
-        }
+        ProcessActions[] actions = {
+                new TranslateToRealOrigin(),
+                new ScaleAndPublishBox500(),
+                new ScaleAndPublishBox100()
+        };
 
-        //Second letter
-        {
-            publishLetterForBox100(currentPoint, sb);
+
+        for (ProcessActions action : actions) {
+            currentPoint = action.process(currentPoint, sb);
         }
 
         return sb.toString();
     }
 
-
-
-    private interface ProcessPoint {
+    private interface ProcessActions {
         OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb);
     }
 
 
-    private static class TranslateToRealOrigin implements ProcessPoint {
+    private static class TranslateToRealOrigin implements ProcessActions {
+        @Override
         public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
             OsgbPoint gridOriginOffset = new OsgbPoint(2*KM_500, KM_500);
             currentPoint = currentPoint.translateWith(gridOriginOffset);
@@ -264,18 +262,21 @@ public class EastingsNorthingsToMainLettersTest {
     }
 
 
-    private OsgbPoint translateToRealOrigin(OsgbPoint currentPoint, StringBuilder sb) {
-        return new TranslateToRealOrigin().process(currentPoint,sb);
+    private static class ScaleAndPublishBox500 implements ProcessActions {
+        @Override
+        public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
+            currentPoint = currentPoint.scaleInside(KM_2500);
+            sb.append(LetterTable.getLetterFor(currentPoint, KM_500));
+            return currentPoint;
+        }
     }
 
-    private OsgbPoint publishLetterForBox500(OsgbPoint currentPoint, StringBuilder sb) {
-        currentPoint = currentPoint.scaleInside(KM_2500);
-        sb.append(LetterTable.getLetterFor(currentPoint, KM_500));
-        return currentPoint;
-    }
-
-    private void publishLetterForBox100(OsgbPoint currentPoint, StringBuilder sb) {
-        currentPoint = currentPoint.scaleInside(KM_500);
-        sb.append(LetterTable.getLetterFor(currentPoint, KM_100));
+    private static class ScaleAndPublishBox100 implements ProcessActions {
+        @Override
+        public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
+            currentPoint = currentPoint.scaleInside(KM_500);
+            sb.append(LetterTable.getLetterFor(currentPoint, KM_100));
+            return currentPoint;
+        }
     }
 }
