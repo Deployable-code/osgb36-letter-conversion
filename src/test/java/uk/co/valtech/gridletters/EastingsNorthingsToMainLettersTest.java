@@ -170,9 +170,16 @@ public class EastingsNorthingsToMainLettersTest {
         int yCoord = northings/KM_100;
 
 
+
         StringBuilder sb = new StringBuilder();
-        sb.append(getFirstLetter(indexOf(xCoord), indexOf(yCoord)));
-        sb.append(getSecondLetter(fiveMod(yCoord), fiveMod(xCoord)));
+
+
+        int xIndexOn500k = fiveDiv(xCoord);
+        int yIndexOn500k = fiveDiv(yCoord);
+        sb.append(getFirstLetter(fiveMod(xIndexOn500k), fiveMod(yIndexOn500k)));
+
+
+        sb.append(getSecondLetter(fiveMod(xCoord), fiveMod(yCoord)));
 
         return sb.toString();
     }
@@ -185,20 +192,23 @@ public class EastingsNorthingsToMainLettersTest {
         return LETTER_TABLE[adjustedY][adjustedX];
     }
 
-    private char getSecondLetter(int yCoord, int xCoord) {
-        int adjustedY = 4 - yCoord;
-        int adjustedX = xCoord;
+    private char getSecondLetter(int indexOfEasting, int indexOfNorthing) {
+        int reverseCountNorthing = 4 - indexOfNorthing;
+        int adjustedY = fiveMod(reverseCountNorthing);
+        int adjustedX = fiveMod(indexOfEasting);
         return LETTER_TABLE[adjustedY][adjustedX];
     }
 
-    private int indexOf(double coordinateOnGrid100) {
-        int indexOnGrid500 = (int) Math.floor( coordinateOnGrid100 / 5);
-        return fiveMod(indexOnGrid500);
+    private int indexOf(int coordinateOnGrid100) {
+        return fiveMod(fiveDiv(coordinateOnGrid100));
     }
 
+    private int fiveDiv(int val) {
+        return (int) Math.floor( (double) val / 5);
+    }
 
-    private int fiveMod(int indexOfGrid500) {
-        int mod = indexOfGrid500 % 5;
+    private int fiveMod(int val) {
+        int mod = val % 5;
         if (mod < 0) {
             mod += 5;
         }
