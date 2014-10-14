@@ -63,25 +63,6 @@ public class EastingsNorthingsToMainLettersTest {
     }
 
     @Test
-    public void secondLetterInterestingPoints() {
-//        String[] rows = {
-//            //X: 0 1 2 3 4 5
-//                "A B C D E A ", // 4
-//                "F G H J K F ", // 3
-//                "L M N O P L ", // 2
-//                "Q R S T U Q ", // 1
-//                "V W X Y Z V ", // 0
-//                "A B C D E A "  //-1
-//        };
-
-        int eastings = 0;
-        int northings = 0;
-        char expectedChar = 'V';
-        assertThat("Second grid letter of: "+eastings+", "+northings+" failed",
-                getGridReference(eastings, northings).charAt(1), is(expectedChar));
-    }
-
-    @Test
     public void secondLetterInterestingPoints_1() {
         String[] rows = {
             //X: 0 1 2 3 4
