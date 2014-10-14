@@ -1,11 +1,11 @@
-package uk.co.valtech.gridletters;
+package uk.co.valtech.gridletters.domain;
 
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
 * Created by julianghionoiu on 14/10/2014.
 */
-class LetterTable {
+public class LetterTable {
     private static final char[][] LETTERS = {
             { 'A', 'B', 'C', 'D', 'E' },
             { 'F', 'G', 'H', 'J', 'K' },

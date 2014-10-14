@@ -1,72 +1,22 @@
 package uk.co.valtech.gridletters;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
+import uk.co.valtech.gridletters.domain.OsgbPoint;
+import uk.co.valtech.gridletters.domain.Scale;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class MainTest {
+public class OsgbPointToReferenceTest {
 
-    //~~~ Functional tests
+    private OsgbPointToReference instance;
 
-    @Test
-    public void ftestOrigin() throws Exception {
-        int eastings = 0 * Scale.KM_100;
-        int northings = 0 * Scale.KM_100;
-        String expectedGrid = "SV";
-
-        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
-                getGridReference(eastings, northings), is(expectedGrid));
+    @Before
+    public void setUp() throws Exception {
+        instance = new OsgbPointToReference();
     }
-
-    @Test
-    public void ftestFarPoint() throws Exception {
-        int eastings = 2 * Scale.KM_100;
-        int northings = 9 * Scale.KM_100;
-        String expectedGrid = "NC";
-
-        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
-                getGridReference(eastings, northings), is(expectedGrid));
-    }
-
-    @Test
-    public void ftestNegativePoint() throws Exception {
-        int eastings = -1 * Scale.KM_100;
-        int northings = -1 * Scale.KM_100;
-        String expectedGrid = "WE";
-
-        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
-                getGridReference(eastings, northings), is(expectedGrid));
-    }
-
-    @Ignore
-    @Test
-    public void ftestSpecificPoint10km() throws Exception {
-        int eastings = 0 * Scale.KM_100 + 1;
-        int northings = 0 * Scale.KM_100 + 2;
-        String expectedGrid = "SV12";
-
-        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
-                getGridReference(eastings, northings), is(expectedGrid));
-    }
-
-    @Ignore
-    @Test
-    public void ftestNegativeSpecificPoint10Km() throws Exception {
-        int eastings = -1 * Scale.KM_100 - 2;
-        int northings = -1 * Scale.KM_100 - 3;
-        String expectedGrid = "WE -2 -3";
-
-        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
-                getGridReference(eastings, northings), is(expectedGrid));
-    }
-
-    //~~~~ Unit tests
-
-
-    //Processing steps
 
 
     @Test
@@ -161,18 +111,9 @@ public class MainTest {
                     int northings = yCoord * Scale.KM_100;
 
                     assertThat("First grid letter of: "+eastings+", "+northings+" failed",
-                            getGridReference(eastings, northings).charAt(letterNumber), is(expectedChar));
+                            instance.convert(eastings, northings).charAt(letterNumber), is(expectedChar));
                 }
             }
         }
     }
-
-    //~~~~~~ Code
-
-
-    private String getGridReference(int eastings, int northings) {
-        return new OsgbPointToReference().convert(eastings, northings);
-    }
-
-
 }

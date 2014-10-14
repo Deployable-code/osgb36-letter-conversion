@@ -1,5 +1,10 @@
 package uk.co.valtech.gridletters;
 
+import uk.co.valtech.gridletters.domain.OsgbPoint;
+import uk.co.valtech.gridletters.steps.ScaleAndPublishBox100;
+import uk.co.valtech.gridletters.steps.ScaleAndPublishBox500;
+import uk.co.valtech.gridletters.steps.TranslateToRealOrigin;
+
 /**
 * Created by julianghionoiu on 14/10/2014.
 */

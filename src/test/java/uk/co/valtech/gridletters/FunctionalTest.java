@@ -3,6 +3,7 @@ package uk.co.valtech.gridletters;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import uk.co.valtech.gridletters.domain.Scale;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -15,10 +16,10 @@ public class FunctionalTest {
         instance = new OsgbPointToReference();
     }
 
-    // Only 100Km boxes
+    //~~~~~~~~~ Only 100Km boxes
 
     @Test
-    public void originShouldBeTransaltedCorrectly() throws Exception {
+    public void originShouldBeTranslatedCorrectly() throws Exception {
         int eastings = 0 * Scale.KM_100;
         int northings = 0 * Scale.KM_100;
         String expectedGrid = "SV";
@@ -46,6 +47,8 @@ public class FunctionalTest {
         assertThat("Grid reference of: "+eastings+", "+northings+" failed",
                 instance.convert(eastings, northings), is(expectedGrid));
     }
+
+    //~~~~~~~~~ Only 10Km boxes
 
     @Ignore
     @Test

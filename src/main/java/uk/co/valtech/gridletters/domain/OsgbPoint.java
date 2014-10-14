@@ -1,11 +1,11 @@
-package uk.co.valtech.gridletters;
+package uk.co.valtech.gridletters.domain;
 
 /**
  * Immutable class
  */
-class OsgbPoint {
-    int x;
-    int y;
+public class OsgbPoint {
+    private int x;
+    private int y;
 
     public OsgbPoint(int x, int y) {
         this.x = x;
