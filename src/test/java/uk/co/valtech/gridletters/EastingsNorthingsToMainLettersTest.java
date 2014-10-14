@@ -65,6 +65,7 @@ public class EastingsNorthingsToMainLettersTest {
     //~~~~ Unit tests
 
     private static final int KM_100 = 100000;
+    private static final int KM_500 = 5*KM_100;
     @Test
     public void firstLetterOfInterestingPoints() {
         String[] rows = {
@@ -150,17 +151,6 @@ public class EastingsNorthingsToMainLettersTest {
 
     //~~~~~~ Code
 
-    private static final char[][] LETTER_TABLE = {
-    //mod X:   3    4    0    1    2
-            { 'A', 'B', 'C', 'D', 'E' }, // Y: 3
-            { 'F', 'G', 'H', 'J', 'K' }, // Y: 2
-            { 'L', 'M', 'N', 'O', 'P' }, // Y: 1
-            { 'Q', 'R', 'S', 'T', 'U' }, // Y: 0
-            { 'V', 'W', 'X', 'Y', 'Z' }  // Y: 4
-    //mod X:   3    4    0    1    2
-    };
-
-
     private static class Util {
 
         public static int fiveDiv(int val) {
@@ -200,10 +190,10 @@ public class EastingsNorthingsToMainLettersTest {
             this.yZero = yZero;
         }
 
-        private char getLetterFor(int indexOfEasting, int indexOfNorthing) {
-            int reverseCountNorthing = 4 - indexOfNorthing;
-            int adjustedY = Util.fiveMod(-yZero + reverseCountNorthing);
-            int adjustedX = Util.fiveMod(xZero + indexOfEasting);
+        private char getLetterFor(int indexOfEastings, int indexOfNorthings) {
+            int reverseCountNorthings = 4 - indexOfNorthings;
+            int adjustedY = Util.fiveMod(-yZero + reverseCountNorthings);
+            int adjustedX = Util.fiveMod(xZero + indexOfEastings);
 
             return LETTER_TABLE[adjustedY][adjustedX];
         }
@@ -215,27 +205,23 @@ public class EastingsNorthingsToMainLettersTest {
 
 
     private String getGridReference(int eastings, int northings) {
-        int xCoord = eastings/KM_100;
-        int yCoord = northings/KM_100;
-
-
-
         StringBuilder sb = new StringBuilder();
 
-
-        int xIndexOn500k = fiveDiv(xCoord);
-        int yIndexOn500k = fiveDiv(yCoord);
+        int xIndexOn500k = div(eastings, KM_500);
+        int yIndexOn500k = div(northings, KM_500);
         LetterTable tableForOne = new LetterTable(FAKE_ZERO_X, FAKE_ZERO_Y);
         sb.append(tableForOne.getLetterFor(fiveMod(xIndexOn500k), fiveMod(yIndexOn500k)));
 
+        int xIndexOn100k = div(eastings, KM_100);
+        int yIndexOn100k = div(northings, KM_100);
         LetterTable tableForTwo = new LetterTable();
-        sb.append(tableForTwo.getLetterFor(fiveMod(xCoord), fiveMod(yCoord)));
+        sb.append(tableForTwo.getLetterFor(fiveMod(xIndexOn100k), fiveMod(yIndexOn100k)));
 
         return sb.toString();
     }
 
-    private int fiveDiv(int val) {
-        return (int) Math.floor( (double) val / 5);
+    private int div(int dividend, int denominator) {
+        return (int) Math.floor( (double) dividend / denominator);
     }
 
     private int fiveMod(int val) {
