@@ -198,25 +198,40 @@ public class EastingsNorthingsToMainLettersTest {
         int transaltedX = eastings + 2*KM_500;
         int transaltedY = northings + KM_500;
 
+
+        int currentScale;
+        int currentX;
+        int currentY;
+
+        //Calibration
+        {
+            currentScale = KM_2500;
+            currentX = Util.mod(transaltedX, currentScale);
+            currentY = Util.mod(transaltedY, KM_2500);
+        }
+
         //First letter
-        int realX = Util.mod(transaltedX, KM_2500);
-        int realY = Util.mod(transaltedY, KM_2500);
+        {
+            currentScale = KM_500;
+            int xIndex = Util.div(currentX, currentScale);
+            int yIndex = Util.div(currentY, currentScale);
+            sb.append(LetterTable.getLetterFor(xIndex, yIndex));
 
-        int xIndexOn500k = Util.div(realX, KM_500);
-        int yIndexOn500k = Util.div(realY, KM_500);
-        sb.append(LetterTable.getLetterFor(xIndexOn500k, yIndexOn500k));
-
+            currentX = Util.mod(currentX, currentScale);
+            currentY = Util.mod(currentY, currentScale);
+        }
 
 
         //Second letter
+        {
+            currentScale = KM_100;
+            int xIndex = Util.div(currentX, currentScale);
+            int yIndex = Util.div(currentY, currentScale);
+            sb.append(LetterTable.getLetterFor(xIndex, yIndex));
 
-        int myRealX = Util.mod(realX, KM_500);
-        int myRealY = Util.mod(realY, KM_500);
-        int xIndexOn100k = Util.div(myRealX, KM_100);
-        int yIndexOn100k = Util.div(myRealY, KM_100);
-
-
-        sb.append(LetterTable.getLetterFor(xIndexOn100k, yIndexOn100k));
+            currentX = Util.mod(currentX, currentScale);
+            currentY = Util.mod(currentY, currentScale);
+        }
 
         return sb.toString();
     }
