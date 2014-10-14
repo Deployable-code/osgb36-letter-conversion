@@ -154,10 +154,6 @@ public class EastingsNorthingsToMainLettersTest {
             return (int) Math.floor( (double) dividend / denominator);
         }
 
-        public static  int fiveMod(int val) {
-            return mod(val, 5);
-        }
-
         public static  int mod(int dividend, int denominator) {
             int mod = dividend % denominator;
             if (mod < 0) {
@@ -186,6 +182,33 @@ public class EastingsNorthingsToMainLettersTest {
 
     }
 
+    /**
+     * Immutable class
+     */
+    private static class Coordinate {
+        int x;
+        int y;
+
+        private Coordinate(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public Coordinate translateWith(Coordinate offset) {
+            int tx = this.x + offset.getX();
+            int ty = this.y + offset.getY();
+            return new Coordinate(tx, ty);
+        }
+    }
+
     private static final int KM_10 = 10000;
     private static final int KM_100 = 10*KM_10;
     private static final int KM_500 = 5*KM_100;
@@ -194,9 +217,12 @@ public class EastingsNorthingsToMainLettersTest {
     private String getGridReference(int eastings, int northings) {
         StringBuilder sb = new StringBuilder();
 
+
+        Coordinate currentPoint = new Coordinate(eastings, northings);
         //Translate the coordinates to the origin of the grid
-        int transaltedX = eastings + 2*KM_500;
-        int transaltedY = northings + KM_500;
+        Coordinate originOffset = new Coordinate(2*KM_500, KM_500);
+
+        currentPoint = currentPoint.translateWith(originOffset);
 
 
         int currentScale;
@@ -206,8 +232,8 @@ public class EastingsNorthingsToMainLettersTest {
         //Calibration
         {
             currentScale = KM_2500;
-            currentX = Util.mod(transaltedX, currentScale);
-            currentY = Util.mod(transaltedY, KM_2500);
+            currentX = Util.mod(currentPoint.getX(), currentScale);
+            currentY = Util.mod(currentPoint.getY(), currentScale);
         }
 
         //First letter
@@ -220,7 +246,6 @@ public class EastingsNorthingsToMainLettersTest {
             currentX = Util.mod(currentX, currentScale);
             currentY = Util.mod(currentY, currentScale);
         }
-
 
         //Second letter
         {
