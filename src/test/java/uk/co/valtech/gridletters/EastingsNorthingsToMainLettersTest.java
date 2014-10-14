@@ -4,8 +4,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -227,29 +225,57 @@ public class EastingsNorthingsToMainLettersTest {
     private static final int KM_2500 = 5*KM_500;
 
     private String getGridReference(int eastings, int northings) {
+        OsgbPoint currentPoint = new OsgbPoint(eastings, northings);
+        return getGridReference(currentPoint);
+    }
+
+    private String getGridReference(OsgbPoint currentPoint) {
         StringBuilder sb = new StringBuilder();
 
-
         //Translate relative to the real origin
-        OsgbPoint currentPoint = new OsgbPoint(eastings, northings);
-        OsgbPoint gridOriginOffset = new OsgbPoint(2*KM_500, KM_500);
-        currentPoint = currentPoint.translateWith(gridOriginOffset);
-
+        currentPoint = translateToRealOrigin(currentPoint, sb);
 
         //First letter
         {
-            currentPoint = currentPoint.scaleInside(KM_2500);
-            sb.append(LetterTable.getLetterFor(currentPoint, KM_500));
+            currentPoint = publishLetterForBox500(currentPoint, sb);
         }
 
         //Second letter
         {
-            currentPoint = currentPoint.scaleInside(KM_500);
-            sb.append(LetterTable.getLetterFor(currentPoint, KM_100));
+            publishLetterForBox100(currentPoint, sb);
         }
 
         return sb.toString();
     }
 
 
+
+    private interface ProcessPoint {
+        OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb);
+    }
+
+
+    private static class TranslateToRealOrigin implements ProcessPoint {
+        public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
+            OsgbPoint gridOriginOffset = new OsgbPoint(2*KM_500, KM_500);
+            currentPoint = currentPoint.translateWith(gridOriginOffset);
+            return currentPoint;
+        }
+    }
+
+
+    private OsgbPoint translateToRealOrigin(OsgbPoint currentPoint, StringBuilder sb) {
+        return new TranslateToRealOrigin().process(currentPoint,sb);
+    }
+
+    private OsgbPoint publishLetterForBox500(OsgbPoint currentPoint, StringBuilder sb) {
+        currentPoint = currentPoint.scaleInside(KM_2500);
+        sb.append(LetterTable.getLetterFor(currentPoint, KM_500));
+        return currentPoint;
+    }
+
+    private void publishLetterForBox100(OsgbPoint currentPoint, StringBuilder sb) {
+        currentPoint = currentPoint.scaleInside(KM_500);
+        sb.append(LetterTable.getLetterFor(currentPoint, KM_100));
+    }
 }
