@@ -1,7 +1,10 @@
 package uk.co.valtech.gridletters;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -165,22 +168,25 @@ public class EastingsNorthingsToMainLettersTest {
     }
     private static class LetterTable {
 
-        private static final char[][] GRID = {
+        private static final char[][] LETTERS = {
                 { 'A', 'B', 'C', 'D', 'E' },
                 { 'F', 'G', 'H', 'J', 'K' },
                 { 'L', 'M', 'N', 'O', 'P' },
                 { 'Q', 'R', 'S', 'T', 'U' },
                 { 'V', 'W', 'X', 'Y', 'Z' }
         };
-        private static char getLetterFor(int indexOfEastings, int indexOfNorthings) {
-            int reverseCountNorthings = GRID.length - indexOfNorthings - 1;
-            int adjustedY = Util.mod(reverseCountNorthings, GRID.length);
-            int adjustedX = Util.mod(indexOfEastings, GRID.length);
 
-            return GRID[adjustedY][adjustedX];
+        static {
+            ArrayUtils.reverse(LETTERS);
         }
 
+        private static char getLetterFor(OsgbPoint point, int scale) {
+            int xIndex = Util.div(point.getX(), scale);
+            int yIndex = Util.div(point.getY(), scale);
+            return LETTERS[yIndex][xIndex];
+        }
     }
+
 
     /**
      * Immutable class
@@ -208,7 +214,7 @@ public class EastingsNorthingsToMainLettersTest {
             return new OsgbPoint(tx, ty);
         }
 
-        public OsgbPoint relativeToScale(int scale) {
+        public OsgbPoint scaleInside(int scale) {
             int rx = Util.mod(this.x, scale);
             int ry = Util.mod(this.y, scale);
             return new OsgbPoint(rx, ry);
@@ -224,36 +230,22 @@ public class EastingsNorthingsToMainLettersTest {
         StringBuilder sb = new StringBuilder();
 
 
+        //Translate relative to the real origin
         OsgbPoint currentPoint = new OsgbPoint(eastings, northings);
         OsgbPoint gridOriginOffset = new OsgbPoint(2*KM_500, KM_500);
         currentPoint = currentPoint.translateWith(gridOriginOffset);
 
 
-        int currentScale;
-
-        //Calibration
-        {
-            currentPoint = currentPoint.relativeToScale(KM_2500);
-        }
-
         //First letter
         {
-            currentScale = KM_500;
-            int xIndex = Util.div(currentPoint.getX(), currentScale);
-            int yIndex = Util.div(currentPoint.getY(), currentScale);
-            sb.append(LetterTable.getLetterFor(xIndex, yIndex));
-
-            currentPoint = currentPoint.relativeToScale(currentScale);
+            currentPoint = currentPoint.scaleInside(KM_2500);
+            sb.append(LetterTable.getLetterFor(currentPoint, KM_500));
         }
 
         //Second letter
         {
-            currentScale = KM_100;
-            int xIndex = Util.div(currentPoint.getX(), currentScale);
-            int yIndex = Util.div(currentPoint.getY(), currentScale);
-            sb.append(LetterTable.getLetterFor(xIndex, yIndex));
-
-            currentPoint = currentPoint.relativeToScale(currentScale);
+            currentPoint = currentPoint.scaleInside(KM_500);
+            sb.append(LetterTable.getLetterFor(currentPoint, KM_100));
         }
 
         return sb.toString();
