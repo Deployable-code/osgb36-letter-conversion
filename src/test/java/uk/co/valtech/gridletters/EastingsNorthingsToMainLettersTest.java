@@ -1,5 +1,6 @@
 package uk.co.valtech.gridletters;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -7,6 +8,40 @@ import static org.junit.Assert.*;
 
 public class EastingsNorthingsToMainLettersTest {
 
+    //~~~ Functional tests
+
+    @Test
+    public void ftestOrigin() throws Exception {
+        int eastings = 0 * KM_100;
+        int northings = 0 * KM_100;
+        String expectedGrid = "SV";
+
+        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
+                getGridReference(eastings, northings), is(expectedGrid));
+    }
+
+    @Test
+    public void ftestFarPoint() throws Exception {
+        int eastings = 2 * KM_100;
+        int northings = 9 * KM_100;
+        String expectedGrid = "NC";
+
+        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
+                getGridReference(eastings, northings), is(expectedGrid));
+    }
+
+    @Ignore
+    @Test
+    public void ftestSpecificPoint10km() throws Exception {
+        int eastings = 0 * KM_100 + 1;
+        int northings = 0 * KM_100 + 2;
+        String expectedGrid = "SV12";
+
+        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
+                getGridReference(eastings, northings), is(expectedGrid));
+    }
+
+    //~~~~ Unit tests
 
     private static final int KM_100 = 100000;
     @Test
