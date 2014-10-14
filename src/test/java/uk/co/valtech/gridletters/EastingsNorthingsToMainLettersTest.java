@@ -160,6 +160,55 @@ public class EastingsNorthingsToMainLettersTest {
     //mod X:   3    4    0    1    2
     };
 
+
+    private static class Util {
+
+        public static int fiveDiv(int val) {
+            return (int) Math.floor( (double) val / 5);
+        }
+
+        public static  int fiveMod(int val) {
+            int mod = val % 5;
+            if (mod < 0) {
+                mod += 5;
+            }
+            return mod;
+        }
+    }
+
+    private static class LetterTable {
+        private static final char[][] LETTER_TABLE = {
+                //mod X:   3    4    0    1    2
+                { 'A', 'B', 'C', 'D', 'E' }, // Y: 3
+                { 'F', 'G', 'H', 'J', 'K' }, // Y: 2
+                { 'L', 'M', 'N', 'O', 'P' }, // Y: 1
+                { 'Q', 'R', 'S', 'T', 'U' }, // Y: 0
+                { 'V', 'W', 'X', 'Y', 'Z' }  // Y: 4
+                //mod X:   3    4    0    1    2
+        };
+
+
+        private final int xZero;
+        private final int yZero;
+
+        private LetterTable() {
+            this(0,0);
+        }
+
+        private LetterTable(int xZero, int yZero) {
+            this.xZero = xZero;
+            this.yZero = yZero;
+        }
+
+        private char getLetterFor(int indexOfEasting, int indexOfNorthing) {
+            int reverseCountNorthing = 4 - indexOfNorthing;
+            int adjustedY = Util.fiveMod(-yZero + reverseCountNorthing);
+            int adjustedX = Util.fiveMod(xZero + indexOfEasting);
+
+            return LETTER_TABLE[adjustedY][adjustedX];
+        }
+    }
+
     //The fake zero coordinates counting from bottom left
     private static final int FAKE_ZERO_X = 2;
     private static final int FAKE_ZERO_Y = 1;
@@ -176,31 +225,13 @@ public class EastingsNorthingsToMainLettersTest {
 
         int xIndexOn500k = fiveDiv(xCoord);
         int yIndexOn500k = fiveDiv(yCoord);
-        sb.append(getFirstLetter(fiveMod(xIndexOn500k), fiveMod(yIndexOn500k)));
+        LetterTable tableForOne = new LetterTable(FAKE_ZERO_X, FAKE_ZERO_Y);
+        sb.append(tableForOne.getLetterFor(fiveMod(xIndexOn500k), fiveMod(yIndexOn500k)));
 
-
-        sb.append(getSecondLetter(fiveMod(xCoord), fiveMod(yCoord)));
+        LetterTable tableForTwo = new LetterTable();
+        sb.append(tableForTwo.getLetterFor(fiveMod(xCoord), fiveMod(yCoord)));
 
         return sb.toString();
-    }
-
-    private char getFirstLetter(int indexOfEasting, int indexOfNorthing) {
-        int reverseCountNorthing = 4 - indexOfNorthing;
-        int adjustedY = fiveMod( - FAKE_ZERO_Y + reverseCountNorthing);
-        int adjustedX = fiveMod(FAKE_ZERO_X + indexOfEasting);
-
-        return LETTER_TABLE[adjustedY][adjustedX];
-    }
-
-    private char getSecondLetter(int indexOfEasting, int indexOfNorthing) {
-        int reverseCountNorthing = 4 - indexOfNorthing;
-        int adjustedY = fiveMod(reverseCountNorthing);
-        int adjustedX = fiveMod(indexOfEasting);
-        return LETTER_TABLE[adjustedY][adjustedX];
-    }
-
-    private int indexOf(int coordinateOnGrid100) {
-        return fiveMod(fiveDiv(coordinateOnGrid100));
     }
 
     private int fiveDiv(int val) {
