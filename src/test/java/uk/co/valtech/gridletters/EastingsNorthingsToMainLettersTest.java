@@ -64,8 +64,6 @@ public class EastingsNorthingsToMainLettersTest {
 
     //~~~~ Unit tests
 
-    private static final int KM_100 = 100000;
-    private static final int KM_500 = 5*KM_100;
     @Test
     public void firstLetterOfInterestingPoints() {
         String[] rows = {
@@ -104,7 +102,6 @@ public class EastingsNorthingsToMainLettersTest {
         int letterNumber = 0;
         checkTestMatrix(rows, yZero, xZero, letterNumber);
     }
-
     @Test
     public void secondLetterInterestingPoints_1() {
         String[] rows = {
@@ -148,66 +145,78 @@ public class EastingsNorthingsToMainLettersTest {
         }
     }
 
-
     //~~~~~~ Code
 
-    private static class Util {
 
-        public static int fiveDiv(int val) {
-            return (int) Math.floor( (double) val / 5);
-        }
+    private static class Util {
 
         public static int div(int dividend, int denominator) {
             return (int) Math.floor( (double) dividend / denominator);
         }
 
         public static  int fiveMod(int val) {
-            int mod = val % 5;
+            return mod(val, 5);
+        }
+
+        public static  int mod(int dividend, int denominator) {
+            int mod = dividend % denominator;
             if (mod < 0) {
-                mod += 5;
+                mod += denominator;
             }
             return mod;
         }
-    }
 
+    }
     private static class LetterTable {
-        private static final char[][] LETTER_TABLE = {
-                //mod X:   3    4    0    1    2
-                { 'A', 'B', 'C', 'D', 'E' }, // Y: 3
-                { 'F', 'G', 'H', 'J', 'K' }, // Y: 2
-                { 'L', 'M', 'N', 'O', 'P' }, // Y: 1
-                { 'Q', 'R', 'S', 'T', 'U' }, // Y: 0
-                { 'V', 'W', 'X', 'Y', 'Z' }  // Y: 4
-                //mod X:   3    4    0    1    2
+
+        private static final char[][] GRID = {
+                { 'A', 'B', 'C', 'D', 'E' },
+                { 'F', 'G', 'H', 'J', 'K' },
+                { 'L', 'M', 'N', 'O', 'P' },
+                { 'Q', 'R', 'S', 'T', 'U' },
+                { 'V', 'W', 'X', 'Y', 'Z' }
         };
+        private static char getLetterFor(int indexOfEastings, int indexOfNorthings) {
+            int reverseCountNorthings = GRID.length - indexOfNorthings - 1;
+            int adjustedY = Util.mod(reverseCountNorthings, GRID.length);
+            int adjustedX = Util.mod(indexOfEastings, GRID.length);
 
-        private char getLetterFor(int indexOfEastings, int indexOfNorthings) {
-            int reverseCountNorthing = 4 - indexOfNorthings;
-            int adjustedY = Util.fiveMod(reverseCountNorthing);
-            int adjustedX = Util.fiveMod(indexOfEastings);
-
-            return LETTER_TABLE[adjustedY][adjustedX];
+            return GRID[adjustedY][adjustedX];
         }
+
     }
 
+    private static final int KM_10 = 10000;
+    private static final int KM_100 = 10*KM_10;
+    private static final int KM_500 = 5*KM_100;
+    private static final int KM_2500 = 5*KM_500;
 
     private String getGridReference(int eastings, int northings) {
         StringBuilder sb = new StringBuilder();
 
-        //Move the origin to the corner of the grid
-        int realX = eastings + 2*KM_500;
-        int realY = northings + KM_500;
+        //Translate the coordinates to the origin of the grid
+        int transaltedX = eastings + 2*KM_500;
+        int transaltedY = northings + KM_500;
 
-        //
+        //First letter
+        int realX = Util.mod(transaltedX, KM_2500);
+        int realY = Util.mod(transaltedY, KM_2500);
+
         int xIndexOn500k = Util.div(realX, KM_500);
         int yIndexOn500k = Util.div(realY, KM_500);
-        LetterTable tableForOne = new LetterTable();
-        sb.append(tableForOne.getLetterFor(Util.fiveMod(xIndexOn500k), Util.fiveMod(yIndexOn500k)));
+        sb.append(LetterTable.getLetterFor(xIndexOn500k, yIndexOn500k));
 
-        int xIndexOn100k = Util.div(realX, KM_100);
-        int yIndexOn100k = Util.div(realY, KM_100);
-        LetterTable tableForTwo = new LetterTable();
-        sb.append(tableForTwo.getLetterFor(Util.fiveMod(xIndexOn100k), Util.fiveMod(yIndexOn100k)));
+
+
+        //Second letter
+
+        int myRealX = Util.mod(realX, KM_500);
+        int myRealY = Util.mod(realY, KM_500);
+        int xIndexOn100k = Util.div(myRealX, KM_100);
+        int yIndexOn100k = Util.div(myRealY, KM_100);
+
+
+        sb.append(LetterTable.getLetterFor(xIndexOn100k, yIndexOn100k));
 
         return sb.toString();
     }
