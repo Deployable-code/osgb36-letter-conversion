@@ -41,31 +41,29 @@ public class EastingsNorthingsToMainLettersTest {
                 "A _ _ _ _ B _ _ _ _ C _ _ _ _ D _ _ _ _ E _ _ _ _ A ", // Y coord: -10
          // X: -10        -5         0         5        10        15
         };
-
-
-
         int yZero = 15;
         int xZero = 10;
-        int letterNumber = 0;
 
+        int letterNumber = 0;
         checkTestMatrix(rows, yZero, xZero, letterNumber);
     }
 
     @Test
     public void secondLetterInterestingPoints_1() {
         String[] rows = {
-            //X: 0 1 2 3 4
-                "A B C D E ", // 4
-                "F G H J K ", // 3
-                "L M N O P ", // 2
-                "Q R S T U ", // 1
-                "V W X Y Z ", // 0
+            //X: 0 1 2 3 4 5
+                "Z V W X Y Z V ", // 5
+                "E A B C D E A ", // 4
+                "K F G H J K F ", // 3
+                "P L M N O P L ", // 2
+                "U Q R S T U Q ", // 1
+                "Z V W X Y Z V ", // 0
+                "E A B C D E A ", // -1
         };
+        int yZero = 5;
+        int xZero = 1;
 
-        int yZero = 4;
-        int xZero = 0;
         int letterNumber = 1;
-
         checkTestMatrix(rows, yZero, xZero, letterNumber);
     }
 
@@ -118,14 +116,7 @@ public class EastingsNorthingsToMainLettersTest {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getFirstLetter(indexOf(xCoord), indexOf(yCoord)));
-
-        if ((xCoord >= 0 && xCoord < 5) &&
-           (yCoord >= 0 && yCoord < 5)) {
-
-            int adjustedY = 4 - yCoord;
-            int adjustedX = xCoord;
-            sb.append(LETTER_TABLE[adjustedY][adjustedX]);
-        }
+        sb.append(getSecondLetter(fiveMod(yCoord), fiveMod(xCoord)));
 
         return sb.toString();
     }
@@ -135,6 +126,12 @@ public class EastingsNorthingsToMainLettersTest {
         int adjustedY = fiveMod( - FAKE_ZERO_Y + reverseCountNorthing);
         int adjustedX = fiveMod(FAKE_ZERO_X + indexOfEasting);
 
+        return LETTER_TABLE[adjustedY][adjustedX];
+    }
+
+    private char getSecondLetter(int yCoord, int xCoord) {
+        int adjustedY = 4 - yCoord;
+        int adjustedX = xCoord;
         return LETTER_TABLE[adjustedY][adjustedX];
     }
 
