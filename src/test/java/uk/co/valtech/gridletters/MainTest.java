@@ -4,10 +4,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class EastingsNorthingsToMainLettersTest {
+public class MainTest {
 
     //~~~ Functional tests
 
@@ -126,6 +127,23 @@ public class EastingsNorthingsToMainLettersTest {
         checkTestMatrix(rows, yZero, xZero, letterNumber);
     }
 
+    @Test
+    public void weTranslateAPointByRunningItThroughASeriesOfSteps() throws Exception {
+        OsgbPointToReference engine = new OsgbPointToReference(
+                (OsgbPoint currentPoint, StringBuilder sb) ->  {
+                    sb.append("x");
+                    return currentPoint;
+                },
+                (OsgbPoint currentPoint, StringBuilder sb) ->  {
+                    sb.append(currentPoint.getX()+""+currentPoint.getY());
+                    return null;
+                });
+
+
+        OsgbPoint samplePoint = new OsgbPoint(1, 2);
+        assertThat(engine.convert(samplePoint), is(equalTo("x12")));
+    }
+
     //~~~~~~~ Testing utils
 
     private static final int TEST_GRID_X_SPACING = 2;
@@ -234,30 +252,39 @@ public class EastingsNorthingsToMainLettersTest {
     }
 
     private static class OsgbPointToReference {
-        private static ProcessActions[] STEPS = {
-                new TranslateToRealOrigin(),
-                new ScaleAndPublishBox500(),
-                new ScaleAndPublishBox100()
-        };
+        private ProcessingStep[] steps;
 
+        private OsgbPointToReference() {
+            this(new TranslateToRealOrigin(),
+                 new ScaleAndPublishBox500(),
+                 new ScaleAndPublishBox100());
+        }
+
+        private OsgbPointToReference(ProcessingStep... steps) {
+            this.steps = steps;
+        }
 
         private String convert(OsgbPoint currentPoint) {
             StringBuilder sb = new StringBuilder();
 
-            for (ProcessActions action : STEPS) {
+            for (ProcessingStep action : steps) {
                 currentPoint = action.process(currentPoint, sb);
             }
 
             return sb.toString();
         }
+
+        private Class<? extends ProcessingStep> getStepAt(int index) {
+            return steps[index].getClass();
+        }
     }
 
-    private interface ProcessActions {
+    private interface ProcessingStep {
         OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb);
     }
 
 
-    private static class TranslateToRealOrigin implements ProcessActions {
+    private static class TranslateToRealOrigin implements ProcessingStep {
         @Override
         public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
             OsgbPoint gridOriginOffset = new OsgbPoint(2*KM_500, KM_500);
@@ -267,7 +294,7 @@ public class EastingsNorthingsToMainLettersTest {
     }
 
 
-    private static class ScaleAndPublishBox500 implements ProcessActions {
+    private static class ScaleAndPublishBox500 implements ProcessingStep {
         @Override
         public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
             currentPoint = currentPoint.scaleInside(KM_2500);
@@ -276,7 +303,7 @@ public class EastingsNorthingsToMainLettersTest {
         }
     }
 
-    private static class ScaleAndPublishBox100 implements ProcessActions {
+    private static class ScaleAndPublishBox100 implements ProcessingStep {
         @Override
         public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
             currentPoint = currentPoint.scaleInside(KM_500);

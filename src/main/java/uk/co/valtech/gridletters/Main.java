@@ -3,8 +3,8 @@ package uk.co.valtech.gridletters;
 /**
  * Created by julianghionoiu on 13/10/2014.
  */
-public class EastingsNorthingsToMainLetters {
+public class Main {
 
-    public EastingsNorthingsToMainLetters() {
+    public Main() {
     }
 }
