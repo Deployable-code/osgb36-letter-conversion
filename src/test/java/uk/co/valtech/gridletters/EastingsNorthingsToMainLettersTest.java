@@ -185,11 +185,11 @@ public class EastingsNorthingsToMainLettersTest {
     /**
      * Immutable class
      */
-    private static class Coordinate {
+    private static class OsgbPoint {
         int x;
         int y;
 
-        private Coordinate(int x, int y) {
+        private OsgbPoint(int x, int y) {
             this.x = x;
             this.y = y;
         }
@@ -202,10 +202,16 @@ public class EastingsNorthingsToMainLettersTest {
             return y;
         }
 
-        public Coordinate translateWith(Coordinate offset) {
+        public OsgbPoint translateWith(OsgbPoint offset) {
             int tx = this.x + offset.getX();
             int ty = this.y + offset.getY();
-            return new Coordinate(tx, ty);
+            return new OsgbPoint(tx, ty);
+        }
+
+        public OsgbPoint relativeToScale(int scale) {
+            int rx = Util.mod(this.x, scale);
+            int ry = Util.mod(this.y, scale);
+            return new OsgbPoint(rx, ry);
         }
     }
 
@@ -218,44 +224,36 @@ public class EastingsNorthingsToMainLettersTest {
         StringBuilder sb = new StringBuilder();
 
 
-        Coordinate currentPoint = new Coordinate(eastings, northings);
-        //Translate the coordinates to the origin of the grid
-        Coordinate originOffset = new Coordinate(2*KM_500, KM_500);
-
-        currentPoint = currentPoint.translateWith(originOffset);
+        OsgbPoint currentPoint = new OsgbPoint(eastings, northings);
+        OsgbPoint gridOriginOffset = new OsgbPoint(2*KM_500, KM_500);
+        currentPoint = currentPoint.translateWith(gridOriginOffset);
 
 
         int currentScale;
-        int currentX;
-        int currentY;
 
         //Calibration
         {
-            currentScale = KM_2500;
-            currentX = Util.mod(currentPoint.getX(), currentScale);
-            currentY = Util.mod(currentPoint.getY(), currentScale);
+            currentPoint = currentPoint.relativeToScale(KM_2500);
         }
 
         //First letter
         {
             currentScale = KM_500;
-            int xIndex = Util.div(currentX, currentScale);
-            int yIndex = Util.div(currentY, currentScale);
+            int xIndex = Util.div(currentPoint.getX(), currentScale);
+            int yIndex = Util.div(currentPoint.getY(), currentScale);
             sb.append(LetterTable.getLetterFor(xIndex, yIndex));
 
-            currentX = Util.mod(currentX, currentScale);
-            currentY = Util.mod(currentY, currentScale);
+            currentPoint = currentPoint.relativeToScale(currentScale);
         }
 
         //Second letter
         {
             currentScale = KM_100;
-            int xIndex = Util.div(currentX, currentScale);
-            int yIndex = Util.div(currentY, currentScale);
+            int xIndex = Util.div(currentPoint.getX(), currentScale);
+            int yIndex = Util.div(currentPoint.getY(), currentScale);
             sb.append(LetterTable.getLetterFor(xIndex, yIndex));
 
-            currentX = Util.mod(currentX, currentScale);
-            currentY = Util.mod(currentY, currentScale);
+            currentPoint = currentPoint.relativeToScale(currentScale);
         }
 
         return sb.toString();
