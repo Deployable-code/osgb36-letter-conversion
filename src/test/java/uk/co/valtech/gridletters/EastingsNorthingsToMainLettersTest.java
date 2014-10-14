@@ -8,9 +8,10 @@ import static org.junit.Assert.*;
 public class EastingsNorthingsToMainLettersTest {
 
 
+    private static final int KM_100 = 100000;
 
     @Test
-    public void shouldConvertAllInterestingPoints() {
+    public void firstLetterOfInterestingPoints() {
         String[] rows = {
          // X: -10        -5         0         5        10        15
                 "A _ _ _ _ B _ _ _ _ C _ _ _ _ D _ _ _ _ E _ _ _ _ A ", // Y coord: 15
@@ -51,11 +52,65 @@ public class EastingsNorthingsToMainLettersTest {
                 char expectedChar = row.charAt(j);
 
                 if (expectedChar != '_') {
-                    assertThat("Quadrant: "+xCoord+", "+yCoord+" failed", quadrantOf(xCoord, yCoord), is(expectedChar));
+                    int eastings = xCoord * KM_100;
+                    int northings = yCoord * KM_100;
+
+                    assertThat("First grid letter of: "+eastings+", "+northings+" failed",
+                            getGridReference(eastings, northings).charAt(0), is(expectedChar));
                 }
             }
         }
     }
+
+    @Test
+    public void secondLetterInterestingPoints() {
+//        String[] rows = {
+//            //X: 0 1 2 3 4 5
+//                "A B C D E A ", // 4
+//                "F G H J K F ", // 3
+//                "L M N O P L ", // 2
+//                "Q R S T U Q ", // 1
+//                "V W X Y Z V ", // 0
+//                "A B C D E A "  //-1
+//        };
+
+        int eastings = 0;
+        int northings = 0;
+        char expectedChar = 'V';
+        assertThat("Second grid letter of: "+eastings+", "+northings+" failed",
+                getGridReference(eastings, northings).charAt(1), is(expectedChar));
+    }
+
+    @Test
+    public void secondLetterInterestingPoints_1() {
+        String[] rows = {
+            //X: 0 1 2 3 4
+                "A B C D E ", // 4
+                "F G H J K ", // 3
+                "L M N O P ", // 2
+                "Q R S T U ", // 1
+                "V W X Y Z ", // 0
+        };
+
+        for (int i = 0; i < rows.length; i++) {
+            String row = rows[i];
+            int yCoord = 4 - i;
+
+            for (int j = 0; j < row.length(); j+= 2) {
+                int xCoord = j/2;
+                char expectedChar = row.charAt(j);
+
+                if (expectedChar != '_') {
+                    int eastings = xCoord * KM_100;
+                    int northings = yCoord * KM_100;
+
+                    assertThat("First grid letter of: "+eastings+", "+northings+" failed",
+                            getGridReference(eastings, northings).charAt(1), is(expectedChar));
+                }
+            }
+        }
+    }
+
 
     //~~~~~~ Code
 
@@ -74,11 +129,26 @@ public class EastingsNorthingsToMainLettersTest {
     private static final int FAKE_ZERO_Y = 1;
 
 
-    private char quadrantOf(int easting, int northing) {
-        return getLetter(indexOf(easting), indexOf(northing));
+    private String getGridReference(int eastings, int northings) {
+        int xCoord = eastings/KM_100;
+        int yCoord = northings/KM_100;
+
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(getFirstLetter(indexOf(xCoord), indexOf(yCoord)));
+
+        if ((xCoord >= 0 && xCoord < 5) &&
+           (yCoord >= 0 && yCoord < 5)) {
+
+            int adjustedY = 4 - yCoord;
+            int adjustedX = xCoord;
+            sb.append(LETTER_TABLE[adjustedY][adjustedX]);
+        }
+
+        return sb.toString();
     }
 
-    private char getLetter(int indexOfEasting, int indexOfNorthing) {
+    private char getFirstLetter(int indexOfEasting, int indexOfNorthing) {
         int reverseCountNorthing = 4 - indexOfNorthing;
         int adjustedY = fiveMod( - FAKE_ZERO_Y + reverseCountNorthing);
         int adjustedX = fiveMod(FAKE_ZERO_X + indexOfEasting);
