@@ -41,6 +41,17 @@ public class EastingsNorthingsToMainLettersTest {
                 getGridReference(eastings, northings), is(expectedGrid));
     }
 
+    @Ignore
+    @Test
+    public void ftestNegativeSpecificPoint10Km() throws Exception {
+        int eastings = -1 * KM_100 - 2;
+        int northings = -1 * KM_100 - 3;
+        String expectedGrid = "WE -2 -3";
+
+        assertThat("Grid reference of: "+eastings+", "+northings+" failed",
+                getGridReference(eastings, northings), is(expectedGrid));
+    }
+
     //~~~~ Unit tests
 
     private static final int KM_100 = 100000;
