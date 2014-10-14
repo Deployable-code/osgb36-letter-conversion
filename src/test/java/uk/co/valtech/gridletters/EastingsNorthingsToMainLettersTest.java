@@ -65,6 +65,10 @@ public class EastingsNorthingsToMainLettersTest {
 
     //~~~~ Unit tests
 
+
+    //Processing steps
+
+
     @Test
     public void firstLetterOfInterestingPoints() {
         String[] rows = {
@@ -149,7 +153,7 @@ public class EastingsNorthingsToMainLettersTest {
     //~~~~~~ Code
 
 
-    private static class Util {
+    private static class GridMath {
 
         public static int div(int dividend, int denominator) {
             return (int) Math.floor( (double) dividend / denominator);
@@ -179,8 +183,8 @@ public class EastingsNorthingsToMainLettersTest {
         }
 
         private static char getLetterFor(OsgbPoint point, int scale) {
-            int xIndex = Util.div(point.getX(), scale);
-            int yIndex = Util.div(point.getY(), scale);
+            int xIndex = GridMath.div(point.getX(), scale);
+            int yIndex = GridMath.div(point.getY(), scale);
             return LETTERS[yIndex][xIndex];
         }
     }
@@ -213,8 +217,8 @@ public class EastingsNorthingsToMainLettersTest {
         }
 
         public OsgbPoint scaleInside(int scale) {
-            int rx = Util.mod(this.x, scale);
-            int ry = Util.mod(this.y, scale);
+            int rx = GridMath.mod(this.x, scale);
+            int ry = GridMath.mod(this.y, scale);
             return new OsgbPoint(rx, ry);
         }
     }
@@ -226,25 +230,26 @@ public class EastingsNorthingsToMainLettersTest {
 
     private String getGridReference(int eastings, int northings) {
         OsgbPoint currentPoint = new OsgbPoint(eastings, northings);
-        return getGridReference(currentPoint);
+        return new OsgbPointToReference().convert(currentPoint);
     }
 
-    private String getGridReference(OsgbPoint currentPoint) {
-        StringBuilder sb = new StringBuilder();
-
-
-        ProcessActions[] actions = {
+    private static class OsgbPointToReference {
+        private static ProcessActions[] STEPS = {
                 new TranslateToRealOrigin(),
                 new ScaleAndPublishBox500(),
                 new ScaleAndPublishBox100()
         };
 
 
-        for (ProcessActions action : actions) {
-            currentPoint = action.process(currentPoint, sb);
-        }
+        private String convert(OsgbPoint currentPoint) {
+            StringBuilder sb = new StringBuilder();
 
-        return sb.toString();
+            for (ProcessActions action : STEPS) {
+                currentPoint = action.process(currentPoint, sb);
+            }
+
+            return sb.toString();
+        }
     }
 
     private interface ProcessActions {
