@@ -11,7 +11,7 @@ public class OsgbPointToReferenceConverterTest {
 
 
     @Test
-    public void originShouldBeTranslatedCorrectly() throws Exception {
+    public void shouldConvertOrigin() throws Exception {
         OsgbPointToReferenceConverter instance =
                 new OsgbPointToReferenceConverter(Reference.BOX_100km);
 
@@ -24,7 +24,7 @@ public class OsgbPointToReferenceConverterTest {
     }
 
     @Test
-    public void positivePointFarFromOrigin() throws Exception {
+    public void shouldConvertPositivePointFarFromOrigin() throws Exception {
         OsgbPointToReferenceConverter instance =
                 new OsgbPointToReferenceConverter(Reference.BOX_1m);
 

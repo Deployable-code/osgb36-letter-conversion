@@ -13,7 +13,7 @@ public class PublishBoxLetterTest {
 
 
     @Test
-    public void secondLetterInterestingPoints_1() {
+    public void shouldPublishTheGridLetters() {
         Reference reference = Reference.BOX_10m;
         PublishBoxLetter instance = new PublishBoxLetter(reference);
 
