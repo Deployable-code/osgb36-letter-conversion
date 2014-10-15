@@ -1,6 +1,7 @@
 package uk.co.valtech.gridletters.domain;
 
 import org.apache.commons.lang3.ArrayUtils;
+import uk.co.valtech.gridletters.util.GridMath;
 
 /**
 * Created by julianghionoiu on 14/10/2014.

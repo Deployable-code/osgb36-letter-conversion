@@ -1,4 +1,4 @@
-package uk.co.valtech.gridletters.domain;
+package uk.co.valtech.gridletters.util;
 
 /**
 * Created by julianghionoiu on 14/10/2014.

@@ -2,12 +2,10 @@ package uk.co.valtech.gridletters;
 
 import org.junit.Before;
 import org.junit.Test;
-import uk.co.valtech.gridletters.domain.OsgbPoint;
 import uk.co.valtech.gridletters.domain.Scale;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class OsgbPointToReferenceTest {
 

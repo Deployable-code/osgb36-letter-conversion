@@ -30,7 +30,7 @@ public class FunctionalTest {
 
     @Test
     public void positivePointFarFromOrigin_100k() throws Exception {
-        int eastings = 2 * Scale.KM_100;
+        int eastings = 2 * Scale.KM_100 + Scale.KM_2500;
         int northings = 9 * Scale.KM_100;
         String expectedGrid = "NC";
 
