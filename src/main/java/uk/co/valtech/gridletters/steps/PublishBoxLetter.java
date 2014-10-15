@@ -3,6 +3,7 @@ package uk.co.valtech.gridletters.steps;
 import org.apache.commons.lang3.ArrayUtils;
 import uk.co.valtech.gridletters.GridReferenceBuilder;
 import uk.co.valtech.gridletters.ProcessingStep;
+import uk.co.valtech.gridletters.domain.Reference;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
 import uk.co.valtech.gridletters.util.GridMath;
 
@@ -22,16 +23,16 @@ public class PublishBoxLetter implements ProcessingStep {
         ArrayUtils.reverse(LETTERS);
     }
 
-    private int scale;
+    private Reference reference;
 
-    public PublishBoxLetter(int scale) {
-        this.scale = scale;
+    public PublishBoxLetter(Reference reference) {
+        this.reference = reference;
     }
 
     @Override
     public OsgbPoint process(OsgbPoint currentPoint, GridReferenceBuilder sb) {
-        int xIndex = GridMath.div(currentPoint.getX(), scale);
-        int yIndex = GridMath.div(currentPoint.getY(), scale);
+        int xIndex = GridMath.div(currentPoint.getX(), reference.getSize());
+        int yIndex = GridMath.div(currentPoint.getY(), reference.getSize());
         sb.appendLetter(LETTERS[yIndex][xIndex]);
         return currentPoint;
     }

@@ -27,7 +27,7 @@ public class OsgbPointTest {
     public void zoomShouldTranslatePositiveCoordinatesRelativeToScale() throws Exception {
         OsgbPoint original = new OsgbPoint(11, 11);
 
-        OsgbPoint zoomed = original.zoomInside(Boundary.BOX_10m);
+        OsgbPoint zoomed = original.zoomInside(Reference.BOX_10m);
 
         assertThat(zoomed, is(equalTo(new OsgbPoint(1, 1))));
     }
@@ -36,7 +36,7 @@ public class OsgbPointTest {
     public void zoomShouldTranslateNegativeCoordinatesRelativeToScale() throws Exception {
         OsgbPoint original = new OsgbPoint(-2, -2);
 
-        OsgbPoint zoomed = original.zoomInside(Boundary.BOX_10m);
+        OsgbPoint zoomed = original.zoomInside(Reference.BOX_10m);
 
         assertThat(zoomed, is(equalTo(new OsgbPoint(8, 8))));
     }

@@ -3,6 +3,7 @@ package uk.co.valtech.gridletters.steps;
 import org.junit.Test;
 import uk.co.valtech.gridletters.GridReferenceBuilder;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
+import uk.co.valtech.gridletters.domain.Reference;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -13,41 +14,33 @@ public class PublishBoxLetterTest {
 
     @Test
     public void secondLetterInterestingPoints_1() {
-        int scale = 2;
-        PublishBoxLetter instance = new PublishBoxLetter(scale);
+        Reference reference = Reference.BOX_10m;
+        PublishBoxLetter instance = new PublishBoxLetter(reference);
 
         String[] rows = {
-            //X: 0 2 4 6 8
-                "          ",
-                "A B C D E ", // 8
-                "          ",
-                "F G H J K ", // 6
-                "          ",
-                "L M N O P ", // 4
-                "          ",
-                "Q R S T U ", // 2
-                "          ",
-                "V W X Y Z ", // 0
+                "ABCDE",
+                "FGHJK",
+                "LMNOP",
+                "QRSTU",
+                "VWXYZ",
         };
+        int multiplicationFactor = 10;
 
-        checkEntireMatrix(instance, rows, scale);
-    }
-
-    private void checkEntireMatrix(PublishBoxLetter instance, String[] rows, int gridSpacing) {
-        for (int i = 1; i < rows.length; i+= gridSpacing) {
+        for (int i = 0; i < rows.length; i++) {
             String row = rows[i];
-            int yCoord = rows.length -i;
+            int coordY = multiplicationFactor * (rows.length - i - 1);
 
-            for (int j = 0; j < row.length(); j+= gridSpacing) {
-                int xCoord = j;
+            for (int j = 0; j < row.length(); j++) {
                 char expectedChar = row.charAt(j);
+                int coordX = multiplicationFactor * j;
 
                 //Test point
                 GridReferenceBuilder builder = new GridReferenceBuilder();
-                OsgbPoint point = new OsgbPoint(xCoord,yCoord);
+                OsgbPoint point = new OsgbPoint(coordX,coordY);
                 instance.process(point, builder);
                 assertThat(builder.toString(), is(equalTo(expectedChar+"")));
             }
         }
     }
+
 }

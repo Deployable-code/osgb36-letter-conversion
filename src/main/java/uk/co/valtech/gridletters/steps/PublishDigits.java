@@ -3,6 +3,7 @@ package uk.co.valtech.gridletters.steps;
 import uk.co.valtech.gridletters.GridReferenceBuilder;
 import uk.co.valtech.gridletters.ProcessingStep;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
+import uk.co.valtech.gridletters.domain.Reference;
 import uk.co.valtech.gridletters.util.GridMath;
 
 /**
@@ -11,17 +12,17 @@ import uk.co.valtech.gridletters.util.GridMath;
 public class PublishDigits implements ProcessingStep {
 
 
-    private int scale;
+    private Reference reference;
 
-    public PublishDigits(int scale) {
-        this.scale = scale;
+    public PublishDigits(Reference reference) {
+        this.reference = reference;
     }
 
 
     @Override
     public OsgbPoint process(OsgbPoint currentPoint, GridReferenceBuilder sb) {
-        int xIndex = GridMath.div(currentPoint.getX(), scale);
-        int yIndex = GridMath.div(currentPoint.getY(), scale);
+        int xIndex = GridMath.div(currentPoint.getX(), reference.getSize());
+        int yIndex = GridMath.div(currentPoint.getY(), reference.getSize());
         sb.appendDigitX(xIndex);
         sb.appendDigitY(yIndex);
         return currentPoint;

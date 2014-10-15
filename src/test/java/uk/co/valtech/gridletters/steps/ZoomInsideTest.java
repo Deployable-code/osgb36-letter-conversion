@@ -2,7 +2,7 @@ package uk.co.valtech.gridletters.steps;
 
 import org.junit.Test;
 import uk.co.valtech.gridletters.GridReferenceBuilder;
-import uk.co.valtech.gridletters.domain.Boundary;
+import uk.co.valtech.gridletters.domain.Reference;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 public class ZoomInsideTest {
 
     private static final OsgbPoint SOME_POINT = new OsgbPoint(4, 5);
-    private static final Boundary SOME_SCALE = Boundary.BOX_100km;
+    private static final Reference SOME_SCALE = Reference.BOX_100km;
     private static final GridReferenceBuilder BUILDER = new GridReferenceBuilder();
 
     @Test
