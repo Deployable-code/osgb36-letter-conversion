@@ -1,9 +1,8 @@
 package uk.co.valtech.gridletters;
 
 import uk.co.valtech.gridletters.domain.OsgbPoint;
-import uk.co.valtech.gridletters.steps.ScaleAndPublishBox100;
-import uk.co.valtech.gridletters.steps.ScaleAndPublishBox500;
-import uk.co.valtech.gridletters.steps.TranslateToRealOrigin;
+import uk.co.valtech.gridletters.domain.Scale;
+import uk.co.valtech.gridletters.steps.*;
 
 /**
 * Created by julianghionoiu on 14/10/2014.
@@ -13,8 +12,10 @@ class OsgbPointToReference {
 
     public OsgbPointToReference() {
         this(new TranslateToRealOrigin(),
-             new ScaleAndPublishBox500(),
-             new ScaleAndPublishBox100());
+             new ZoomInside(Scale.KM_2500),
+             new PublishBoxLetter(Scale.KM_500),
+             new ZoomInside(Scale.KM_500),
+             new PublishBoxLetter(Scale.KM_100));
     }
 
     OsgbPointToReference(ProcessingStep... steps) {

@@ -76,23 +76,6 @@ public class OsgbPointToReferenceTest {
         checkTestMatrix(rows, yZero, xZero, letterNumber);
     }
 
-    @Test
-    public void weTranslateAPointByRunningItThroughASeriesOfSteps() throws Exception {
-        OsgbPointToReference engine = new OsgbPointToReference(
-                (OsgbPoint currentPoint, StringBuilder sb) ->  {
-                    sb.append("x");
-                    return currentPoint;
-                },
-                (OsgbPoint currentPoint, StringBuilder sb) ->  {
-                    sb.append(currentPoint.getX()+""+currentPoint.getY());
-                    return null;
-                });
-
-
-        OsgbPoint samplePoint = new OsgbPoint(1, 2);
-        assertThat(engine.convert(samplePoint), is(equalTo("x12")));
-    }
-
     //~~~~~~~ Testing utils
 
     private static final int TEST_GRID_X_SPACING = 2;

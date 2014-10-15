@@ -26,7 +26,7 @@ public class OsgbPoint {
         return new OsgbPoint(tx, ty);
     }
 
-    public OsgbPoint scaleInside(int scale) {
+    public OsgbPoint zoomInside(int scale) {
         int rx = GridMath.mod(this.x, scale);
         int ry = GridMath.mod(this.y, scale);
         return new OsgbPoint(rx, ry);

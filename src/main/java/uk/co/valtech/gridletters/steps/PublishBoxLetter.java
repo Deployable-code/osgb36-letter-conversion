@@ -8,11 +8,16 @@ import uk.co.valtech.gridletters.domain.Scale;
 /**
 * Created by julianghionoiu on 14/10/2014.
 */
-public class ScaleAndPublishBox100 implements ProcessingStep {
+public class PublishBoxLetter implements ProcessingStep {
+    private int scale;
+
+    public PublishBoxLetter(int scale) {
+        this.scale = scale;
+    }
+
     @Override
     public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
-        currentPoint = currentPoint.scaleInside(Scale.KM_500);
-        sb.append(LetterTable.getLetterFor(currentPoint, Scale.KM_100));
+        sb.append(LetterTable.getLetterFor(currentPoint, scale));
         return currentPoint;
     }
 }
