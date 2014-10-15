@@ -32,7 +32,7 @@ public class PublishBoxLetter implements ProcessingStep {
     public OsgbPoint process(OsgbPoint currentPoint, GridReferenceBuilder sb) {
         int xIndex = GridMath.div(currentPoint.getX(), scale);
         int yIndex = GridMath.div(currentPoint.getY(), scale);
-        sb.append(LETTERS[yIndex][xIndex]);
+        sb.appendLetter(LETTERS[yIndex][xIndex]);
         return currentPoint;
     }
 }

@@ -22,8 +22,8 @@ public class PublishDigits implements ProcessingStep {
     public OsgbPoint process(OsgbPoint currentPoint, GridReferenceBuilder sb) {
         int xIndex = GridMath.div(currentPoint.getX(), scale);
         int yIndex = GridMath.div(currentPoint.getY(), scale);
-        sb.append(xIndex);
-        sb.append(yIndex);
+        sb.appendDigitX(xIndex);
+        sb.appendDigitY(yIndex);
         return currentPoint;
     }
 
