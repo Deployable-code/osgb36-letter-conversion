@@ -8,6 +8,26 @@
     <artifactId>osgb36-letter-conversion</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
+    <name>OSGB36 Conversion To Grid Reference</name>
+    <description>A library that enables the conversion of a OSGB36 location
+        specified by eastings and northings into UK Grid Reference string.</description>
+    <url>https://github.com/julianghionoiu/osgb36-letter-conversion</url>
+
+    <developers>
+        <developer>
+            <name>Iulian (Julian) Ghionoiur</name>
+            <email>iulian.ghionoiu@gmail.com</email>
+            <organization>Iulian Ghionoiu</organization>
+            <organizationUrl>https://github.com/julianghionoiu</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:julianghionoiu/osgb36-letter-conversion.git</connection>
+        <developerConnection>scm:git:git@github.com:julianghionoiu/osgb36-letter-conversion.git</developerConnection>
+        <url>git@github.com:julianghionoiu/osgb36-letter-conversion.git</url>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -70,4 +90,10 @@
         </plugins>
     </build>
 
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 </project>
