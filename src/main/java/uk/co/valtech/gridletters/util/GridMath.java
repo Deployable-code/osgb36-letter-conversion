@@ -3,7 +3,11 @@ package uk.co.valtech.gridletters.util;
 /**
 * Created by julianghionoiu on 14/10/2014.
 */
-public class GridMath {
+public final class GridMath {
+
+    private GridMath() {
+        //Utility class
+    }
 
     public static int div(int dividend, int denominator) {
         return (int) Math.floor( (double) dividend / denominator);

@@ -1,35 +1,25 @@
 package uk.co.valtech.gridletters.steps;
 
-import org.junit.Before;
 import org.junit.Test;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
-import uk.co.valtech.gridletters.domain.Scale;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertThat;
 
 public class ZoomInsideTest {
-    private static final OsgbPoint POINT_A = new OsgbPoint(1, 2);
-    private ZoomInside instance;
 
-    @Before
-    public void setUp() throws Exception {
-        instance = new ZoomInside(Scale.KM_500);
-    }
+    private static final OsgbPoint SOME_POINT = new OsgbPoint(4, 5);
+    private static final int SOME_SCALE = 2;
+    private static final StringBuilder BUFFER = new StringBuilder();
 
     @Test
-    public void shouldReturnedZoomInsideReceivedPoint() throws Exception {
-        ZoomInside instance = new ZoomInside(Scale.KM_500);
-        OsgbPoint point = mock(OsgbPoint.class);
-        when(point.zoomInside(anyInt())).thenReturn(POINT_A);
+    public void shouldReturnedZoomInsidePositivePoint() throws Exception {
+        ZoomInside instance = new ZoomInside(SOME_SCALE);
 
-        OsgbPoint processedPoint = instance.process(point, new StringBuilder());
+        OsgbPoint processedPoint =
+                instance.process(SOME_POINT, BUFFER);
 
-        verify(point).zoomInside(Scale.KM_500);
-        assertThat(processedPoint, is(POINT_A));
+        assertThat(processedPoint, is(equalTo(SOME_POINT.zoomInside(2))));
     }
 }

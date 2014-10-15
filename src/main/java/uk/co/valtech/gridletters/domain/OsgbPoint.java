@@ -1,6 +1,5 @@
 package uk.co.valtech.gridletters.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import uk.co.valtech.gridletters.util.GridMath;
 
 import java.util.Objects;

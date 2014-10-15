@@ -2,14 +2,12 @@ package uk.co.valtech.gridletters.steps;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
 import uk.co.valtech.gridletters.domain.Scale;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class TranslateToRealOriginTest {
     private static final OsgbPoint SOME_POINT = new OsgbPoint(1, 2);
@@ -24,21 +22,12 @@ public class TranslateToRealOriginTest {
 
     @Test
     public void shouldTranslateAnyPointToOrigin() throws Exception {
-        OsgbPoint fakeOrigin = mock(OsgbPoint.class);
+        OsgbPoint fakeOrigin = new OsgbPoint(0,0);
 
-        instance.process(fakeOrigin, new StringBuilder());
+        OsgbPoint translatedPoint = instance.process(fakeOrigin, new StringBuilder());
 
-        //Capture argument
-        ArgumentCaptor<OsgbPoint> captor = ArgumentCaptor.forClass(OsgbPoint.class);
-        verify(fakeOrigin).translateWith(captor.capture());
-        OsgbPoint translationPoint = captor.getValue();
-
-        //Test
-        assertThat(translationPoint.getX(), is( 2* Scale.KM_500));
-        assertThat(translationPoint.getY(), is( Scale.KM_500));
+        assertThat(translatedPoint, is(equalTo(new OsgbPoint(2 * Scale.KM_500, Scale.KM_500))));
     }
-
-
 
     @Test
     public void shouldNotOutputAnything() throws Exception {

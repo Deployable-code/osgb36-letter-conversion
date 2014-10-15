@@ -11,7 +11,8 @@ public class TranslateToRealOrigin implements ProcessingStep {
 
     @Override
     public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
-        OsgbPoint gridOriginOffset = new OsgbPoint(2* Scale.KM_500, Scale.KM_500);
+        OsgbPoint gridOriginOffset =
+                new OsgbPoint(2* Scale.KM_500, Scale.KM_500);
         currentPoint = currentPoint.translateWith(gridOriginOffset);
         return currentPoint;
     }
