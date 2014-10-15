@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.co.valtech.gridletters.GridReferenceBuilder;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
-import uk.co.valtech.gridletters.domain.Scale;
+import uk.co.valtech.gridletters.domain.Units;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -27,7 +27,7 @@ public class TranslateToRealOriginTest {
 
         OsgbPoint translatedPoint = instance.process(fakeOrigin, new GridReferenceBuilder());
 
-        assertThat(translatedPoint, is(equalTo(new OsgbPoint(2 * Scale.KM_500, Scale.KM_500))));
+        assertThat(translatedPoint, is(equalTo(new OsgbPoint(2 * Units.KM_500, Units.KM_500))));
     }
 
     @Test

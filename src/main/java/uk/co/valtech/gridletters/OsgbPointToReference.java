@@ -1,7 +1,8 @@
 package uk.co.valtech.gridletters;
 
+import uk.co.valtech.gridletters.domain.Boundary;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
-import uk.co.valtech.gridletters.domain.Scale;
+import uk.co.valtech.gridletters.domain.Units;
 import uk.co.valtech.gridletters.steps.PublishBoxLetter;
 import uk.co.valtech.gridletters.steps.PublishDigits;
 import uk.co.valtech.gridletters.steps.TranslateToRealOrigin;
@@ -14,24 +15,22 @@ class OsgbPointToReference {
     private final ProcessingStep[] steps;
 
     public OsgbPointToReference() {
-
-
         this.steps = new ProcessingStep[] {
              new TranslateToRealOrigin(),
-             new ZoomInside(Scale.KM_2500),
-             new PublishBoxLetter(Scale.KM_500),
-             new ZoomInside(Scale.KM_500),
-             new PublishBoxLetter(Scale.KM_100),
-             new ZoomInside(Scale.KM_100),
-             new PublishDigits(Scale.KM_10),
-             new ZoomInside(Scale.KM_10),
-             new PublishDigits(Scale.KM_1),
-             new ZoomInside(Scale.KM_1),
-             new PublishDigits(Scale.M_100),
-             new ZoomInside(Scale.M_100),
-             new PublishDigits(Scale.M_10),
-             new ZoomInside(Scale.M_10),
-             new PublishDigits(Scale.M_1),
+             new ZoomInside(Boundary.BOX_2500km),
+             new PublishBoxLetter(Units.KM_500),
+             new ZoomInside(Boundary.BOX_500km),
+             new PublishBoxLetter(Units.KM_100),
+             new ZoomInside(Boundary.BOX_100km),
+             new PublishDigits(Units.KM_10),
+             new ZoomInside(Boundary.BOX_10km),
+             new PublishDigits(Units.KM_1),
+             new ZoomInside(Boundary.BOX_1km),
+             new PublishDigits(Units.M_100),
+             new ZoomInside(Boundary.BOX_100m),
+             new PublishDigits(Units.M_10),
+             new ZoomInside(Boundary.BOX_10m),
+             new PublishDigits(Units.M_1),
         };
     }
 

@@ -1,13 +1,11 @@
 package uk.co.valtech.gridletters;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import uk.co.valtech.gridletters.domain.Scale;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static uk.co.valtech.gridletters.domain.Scale.*;
+import static uk.co.valtech.gridletters.domain.Units.*;
 
 public class OsgbPointToReferenceTest {
     private OsgbPointToReference instance;

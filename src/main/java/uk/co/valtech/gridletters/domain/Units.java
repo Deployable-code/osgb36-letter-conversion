@@ -3,7 +3,7 @@ package uk.co.valtech.gridletters.domain;
 /**
 * Created by julianghionoiu on 14/10/2014.
 */
-public final class Scale {
+public final class Units {
     public static final int M_1 = 1;
     public static final int M_10 = 10;
     public static final int M_100 = 10*M_10;
@@ -13,7 +13,7 @@ public final class Scale {
     public static final int KM_500 = 5*KM_100;
     public static final int KM_2500 = 5*KM_500;
 
-    private Scale() {
+    private Units() {
         //Utility class
     }
 

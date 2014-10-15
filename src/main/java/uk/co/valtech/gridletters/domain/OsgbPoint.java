@@ -30,9 +30,9 @@ public final class OsgbPoint {
         return new OsgbPoint(tx, ty);
     }
 
-    public OsgbPoint zoomInside(int scale) {
-        int rx = GridMath.mod(this.x, scale);
-        int ry = GridMath.mod(this.y, scale);
+    public OsgbPoint zoomInside(Boundary boundary) {
+        int rx = GridMath.mod(this.x, boundary.getSize());
+        int ry = GridMath.mod(this.y, boundary.getSize());
         return new OsgbPoint(rx, ry);
     }
 

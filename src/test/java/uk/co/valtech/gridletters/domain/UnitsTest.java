@@ -4,10 +4,10 @@ import org.junit.Test;
 
 import static net.trajano.commons.testing.UtilityClassTestUtil.assertUtilityClassWellDefined;
 
-public class ScaleTest {
+public class UnitsTest {
 
     @Test
     public void shouldSatisfyContractForUtilityClass() throws Exception {
-        assertUtilityClassWellDefined(Scale.class);
+        assertUtilityClassWellDefined(Units.class);
     }
 }
