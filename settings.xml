@@ -1,0 +1,12 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+<servers>
+    <server>
+        <id>bintray-julianghionoiu-maven-osgb36-letter-conversion</id>
+        <username>julianghionoiu</username>
+        <password>5cd4bebcc5733c69e3b0ab3092587af27194125e</password>
+    </server>
+</servers>
+</settings>

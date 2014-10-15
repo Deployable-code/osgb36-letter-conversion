@@ -4,3 +4,8 @@ jdk:
 
 after_success:
   - mvn clean test jacoco:report coveralls:report
+
+
+#after_success:
+#  - echo "<settings><servers><server><id>bintray-julianghionoiu-maven-osgb36-letter-conversion</id><username>\${env.BINTRAY_USER}</username><password>\${env.BINTRAY_PASS}</password></server></servers></settings>" > ~/settings.xml
+#  - mvn deploy --settings ~/settings.xml

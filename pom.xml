@@ -6,7 +6,7 @@
 
     <groupId>ro.ghionoiu</groupId>
     <artifactId>osgb36-letter-conversion</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.1-SNAPSHOT</version>
 
     <name>OSGB36 Conversion To Grid Reference</name>
     <description>A library that enables the conversion of a OSGB36 location
@@ -27,6 +27,14 @@
         <developerConnection>scm:git:git@github.com:julianghionoiu/osgb36-letter-conversion.git</developerConnection>
         <url>git@github.com:julianghionoiu/osgb36-letter-conversion.git</url>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-julianghionoiu-maven-osgb36-letter-conversion</id>
+            <name>julianghionoiu-maven-osgb36-letter-conversion</name>
+            <url>https://api.bintray.com/maven/julianghionoiu/maven/osgb36-letter-conversion</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
