@@ -22,7 +22,7 @@ public class OsgbPointToReferenceTest {
     public void originShouldBeTranslatedCorrectly() throws Exception {
         int eastings = 0;
         int northings = 0;
-        String expectedGrid = "SV0000";
+        String expectedGrid = "SV0000000000";
 
         assertThat("Grid reference of: "+eastings+", "+northings+" failed",
                 instance.convert(eastings, northings), is(expectedGrid));
@@ -30,9 +30,9 @@ public class OsgbPointToReferenceTest {
 
     @Test
     public void positivePointFarFromOrigin() throws Exception {
-        int eastings  = 3 * KM_2500 + 5 * KM_100 + 1 * KM_10 + 2 * KM_1;
-        int northings = 2 * KM_2500 + 2 * KM_100 + 3 * KM_10 + 4 * KM_1;
-        String expectedGrid = "TL1234";
+        int eastings  = 3 * KM_2500 + 5 * KM_100 + 1 * KM_10 + 2 * KM_1 + 3 * M_100 + 4 * M_10 + 5 * M_1;
+        int northings = 2 * KM_2500 + 2 * KM_100 + 6 * KM_10 + 7 * KM_1 + 8 * M_100 + 9 * M_10 + 0 * M_1;
+        String expectedGrid = "TL1234567890";
 
         assertThat("Grid reference of: "+eastings+", "+northings+" failed",
                 instance.convert(eastings, northings), is(expectedGrid));

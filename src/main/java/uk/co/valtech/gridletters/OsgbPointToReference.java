@@ -26,6 +26,12 @@ class OsgbPointToReference {
              new PublishDigits(Scale.KM_10),
              new ZoomInside(Scale.KM_10),
              new PublishDigits(Scale.KM_1),
+             new ZoomInside(Scale.KM_1),
+             new PublishDigits(Scale.M_100),
+             new ZoomInside(Scale.M_100),
+             new PublishDigits(Scale.M_10),
+             new ZoomInside(Scale.M_10),
+             new PublishDigits(Scale.M_1),
         };
     }
 
