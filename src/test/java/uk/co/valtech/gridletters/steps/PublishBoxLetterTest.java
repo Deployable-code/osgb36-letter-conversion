@@ -1,6 +1,7 @@
 package uk.co.valtech.gridletters.steps;
 
 import org.junit.Test;
+import uk.co.valtech.gridletters.GridReferenceBuilder;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -42,10 +43,10 @@ public class PublishBoxLetterTest {
                 char expectedChar = row.charAt(j);
 
                 //Test point
-                StringBuilder sb = new StringBuilder();
+                GridReferenceBuilder builder = new GridReferenceBuilder();
                 OsgbPoint point = new OsgbPoint(xCoord,yCoord);
-                instance.process(point, sb);
-                assertThat(sb.toString(), is(equalTo(expectedChar+"")));
+                instance.process(point, builder);
+                assertThat(builder.toString(), is(equalTo(expectedChar+"")));
             }
         }
     }

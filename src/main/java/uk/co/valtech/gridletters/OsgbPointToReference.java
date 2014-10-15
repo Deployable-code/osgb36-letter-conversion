@@ -2,35 +2,31 @@ package uk.co.valtech.gridletters;
 
 import uk.co.valtech.gridletters.domain.OsgbPoint;
 import uk.co.valtech.gridletters.domain.Scale;
-import uk.co.valtech.gridletters.steps.*;
-import uk.co.valtech.gridletters.util.GridMath;
+import uk.co.valtech.gridletters.steps.PublishBoxLetter;
+import uk.co.valtech.gridletters.steps.PublishDigits;
+import uk.co.valtech.gridletters.steps.TranslateToRealOrigin;
+import uk.co.valtech.gridletters.steps.ZoomInside;
 
 /**
 * Created by julianghionoiu on 14/10/2014.
 */
 class OsgbPointToReference {
-    private ProcessingStep[] steps;
+    private final ProcessingStep[] steps;
 
     public OsgbPointToReference() {
-        this(new TranslateToRealOrigin(),
+
+
+        this.steps = new ProcessingStep[] {
+             new TranslateToRealOrigin(),
              new ZoomInside(Scale.KM_2500),
              new PublishBoxLetter(Scale.KM_500),
              new ZoomInside(Scale.KM_500),
              new PublishBoxLetter(Scale.KM_100),
              new ZoomInside(Scale.KM_100),
-            (OsgbPoint currentPoint, StringBuilder sb) -> {
-                int xIndex = GridMath.div(currentPoint.getX(), Scale.KM_10);
-                int yIndex = GridMath.div(currentPoint.getY(), Scale.KM_10);
-                System.out.println(xIndex+"-"+yIndex);
-                sb.append(xIndex);
-                sb.append(yIndex);
-                return currentPoint;
-            }
-        );
-    }
-
-    OsgbPointToReference(ProcessingStep... steps) {
-        this.steps = steps;
+             new PublishDigits(Scale.KM_10),
+             new ZoomInside(Scale.KM_10),
+             new PublishDigits(Scale.KM_1),
+        };
     }
 
     public String convert(int eastings, int northings) {
@@ -38,12 +34,12 @@ class OsgbPointToReference {
     }
 
     public String convert(OsgbPoint currentPoint) {
-        StringBuilder sb = new StringBuilder();
+        GridReferenceBuilder builder = new GridReferenceBuilder();
 
         for (ProcessingStep action : steps) {
-            currentPoint = action.process(currentPoint, sb);
+            currentPoint = action.process(currentPoint, builder);
         }
 
-        return sb.toString();
+        return builder.toString();
     }
 }

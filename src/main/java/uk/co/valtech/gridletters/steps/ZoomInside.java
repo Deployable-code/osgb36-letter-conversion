@@ -1,5 +1,6 @@
 package uk.co.valtech.gridletters.steps;
 
+import uk.co.valtech.gridletters.GridReferenceBuilder;
 import uk.co.valtech.gridletters.ProcessingStep;
 import uk.co.valtech.gridletters.domain.OsgbPoint;
 
@@ -14,7 +15,7 @@ public class ZoomInside implements ProcessingStep {
     }
 
     @Override
-    public OsgbPoint process(OsgbPoint currentPoint, StringBuilder sb) {
+    public OsgbPoint process(OsgbPoint currentPoint, GridReferenceBuilder sb) {
         return currentPoint.zoomInside(scale);
     }
 }
