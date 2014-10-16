@@ -21,9 +21,17 @@ SX5598  (1Km)
 ```
 The precision can be configured down to 1 meter
 
-### How to get
+### How to get it
 
-You can get it from Maven once it updates
+Maven users, add this to your POM:
+```xml
+<dependency>
+    <groupId>ro.ghionoiu</groupId>
+    <artifactId>osgb36-letter-conversion</artifactId>
+    <version>0.1.3</version>
+</dependency>
+```
+
 
 ### Usage
 
