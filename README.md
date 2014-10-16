@@ -33,10 +33,8 @@ OsgbPointToReferenceConverter converter =
 int eastings = 255940;
 int northings = 98127;
 System.out.println(converter.toGridReference(eastings, northings));
-```
-This will output:
-```
-SX59
+
+//Will output: SX59
 ```
 
 ### Need help ?
