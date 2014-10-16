@@ -8,15 +8,16 @@ osgb36-letter-conversion
 
  A library to convert OSGB36 Eastings and Northings into grid letter representation.
 
-Transforms:
+Transforms OSBG36 coordinates:
 ```
-Eastings : 255940 metres.
-Northings : 98127 metres.
+Eastings   255940 metres.
+Northings   98127 metres.   
 ```
-Into:
+
+To UK National Grid Reference:
 ```
-10Km - SX59
-1Km  - SX5598
+SX59   (10Km)
+SX5598  (1Km)
 ```
 The precision can be configured down to 1 meter
 
