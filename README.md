@@ -6,7 +6,8 @@ osgb36-letter-conversion
 [![Build Status](https://travis-ci.org/julianghionoiu/osgb36-letter-conversion.svg?branch=master)](https://travis-ci.org/julianghionoiu/osgb36-letter-conversion)
 [![Coverage Status](https://img.shields.io/coveralls/julianghionoiu/osgb36-letter-conversion.svg)](https://coveralls.io/r/julianghionoiu/osgb36-letter-conversion?branch=master)
 
- A library to convert OSGB36 Eastings and Northings into grid letter representation.
+ A library to convert OSGB36 Eastings and Northings into grid letter representation. It is based on the information from 
+ this [Wikipedia page](http://en.wikipedia.org/wiki/Ordnance_Survey_National_Grid).
 
 Transforms OSBG36 coordinates:
 ```
@@ -21,9 +22,17 @@ SX5598  (1Km)
 ```
 The precision can be configured down to 1 meter
 
-### How to get
+### How to get it
 
-You can get it from Maven once it updates
+Maven users, add this to your POM:
+```xml
+<dependency>
+    <groupId>ro.ghionoiu</groupId>
+    <artifactId>osgb36-letter-conversion</artifactId>
+    <version>0.1.3</version>
+</dependency>
+```
+
 
 ### Usage
 
