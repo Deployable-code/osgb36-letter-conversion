@@ -6,7 +6,7 @@
 
     <groupId>ro.ghionoiu</groupId>
     <artifactId>osgb36-letter-conversion</artifactId>
-    <version>0.1.3</version>
+    <version>0.1.4-SNAPSHOT</version>
 
     <name>OSGB36 Conversion To Grid Reference</name>
     <description>A library that enables the conversion of a OSGB36 location
