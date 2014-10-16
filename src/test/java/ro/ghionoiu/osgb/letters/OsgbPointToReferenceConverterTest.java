@@ -35,4 +35,14 @@ public class OsgbPointToReferenceConverterTest {
         assertThat("Grid reference of: "+eastings+", "+northings+" failed",
                 instance.toGridReference(eastings, northings), is(expectedGrid));
     }
+
+    @Test
+    public void testName() throws Exception {
+        OsgbPointToReferenceConverter converter =
+                new OsgbPointToReferenceConverter(Reference.BOX_10km);
+
+        int eastings = 255940;
+        int northings = 98127;
+        System.out.println(converter.toGridReference(eastings, northings));
+    }
 }

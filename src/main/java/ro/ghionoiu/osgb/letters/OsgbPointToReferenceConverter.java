@@ -17,11 +17,20 @@ import static ro.ghionoiu.osgb.letters.domain.Reference.*;
 /**
 * Created by julianghionoiu on 14/10/2014.
 */
-class OsgbPointToReferenceConverter {
-
+public class OsgbPointToReferenceConverter {
     private final List<ProcessingStep> steps;
 
 
+    /**
+     * Construct a converter from OSGB36 coordinates to the letter representation.
+     * The reference parameter will dictate the precision used for the displayed string.
+     * For example:
+     *   If you use <tt>Reference.BOX_10km</tt>
+     *   You will get a 4 letter string such as: SV12
+     *
+     * @param targetReference the reference the string representation will be based on
+     * @see Reference
+     */
     public OsgbPointToReferenceConverter(Reference targetReference) {
 
         Reference[] orderOfReferences = {
@@ -53,10 +62,21 @@ class OsgbPointToReferenceConverter {
         }
     }
 
+    /**
+     * Convert OSGB36 coordinates to the string representation.
+     * @param eastings
+     * @param northings
+     * @return String representation
+     */
     public String toGridReference(int eastings, int northings) {
         return convert(new OsgbPoint(eastings,northings));
     }
 
+    /**
+     * Convert an OsgbPoint to the string representation
+     * @param currentPoint
+     * @return
+     */
     public String convert(OsgbPoint currentPoint) {
         GridReferenceBuilder builder = new GridReferenceBuilder();
 
