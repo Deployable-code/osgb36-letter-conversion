@@ -4,7 +4,7 @@ osgb36-letter-conversion
 [![Java Version](http://img.shields.io/badge/Java-1.8-blue.svg)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 [![Maven Version](http://img.shields.io/maven-central/v/ro.ghionoiu/osgb36-letter-conversion.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22ro.ghionoiu%22%20AND%20a%3A%22osgb36-letter-conversion%22)
 [![Build Status](https://travis-ci.org/Deployable-code/osgb36-letter-conversion.svg?branch=master)](https://travis-ci.org/Deployable-code/osgb36-letter-conversion)
-[![Coverage Status](https://img.shields.io/coveralls/julianghionoiu/osgb36-letter-conversion.svg)](https://coveralls.io/r/julianghionoiu/osgb36-letter-conversion?branch=master)
+[![Coverage Status](https://coveralls.io/repos/Deployable-code/osgb36-letter-conversion/badge.png)](https://coveralls.io/r/Deployable-code/osgb36-letter-conversion)
 
  A library to convert OSGB36 Eastings and Northings into grid letter representation. It is based on the information from 
  this [Wikipedia page](http://en.wikipedia.org/wiki/Ordnance_Survey_National_Grid).
